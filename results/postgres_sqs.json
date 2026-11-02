@@ -1,0 +1,95 @@
+{
+  "environment": {
+    "store": "postgres",
+    "queue": "sqs",
+    "python": "3.14.6",
+    "cpus": 10,
+    "platform": "macOS-15.3-arm64-arm-64bit-Mach-O"
+  },
+  "runs": [
+    {
+      "scenario": "throughput",
+      "batch_size": 1,
+      "events": 20000,
+      "seconds": 135.47,
+      "events_per_sec": 148,
+      "batch_latency_ms": {
+        "p50": 6.55,
+        "p95": 9.67,
+        "p99": 11.3
+      },
+      "all_events_stored_exactly_once": true
+    },
+    {
+      "scenario": "throughput",
+      "batch_size": 10,
+      "events": 20000,
+      "seconds": 16.51,
+      "events_per_sec": 1211,
+      "batch_latency_ms": {
+        "p50": 7.6,
+        "p95": 10.46,
+        "p99": 12.28
+      },
+      "all_events_stored_exactly_once": true
+    },
+    {
+      "scenario": "chaos",
+      "consumers": 1,
+      "valid_events": 20000,
+      "poison_messages": 100,
+      "injected": {
+        "producer_send_failures": 1083,
+        "duplicate_messages_sent": 1077,
+        "db_errors_before_write": 244,
+        "db_errors_after_commit_lost_ack": 127,
+        "consumer_crashes_after_commit": 120
+      },
+      "absorbed": {
+        "producer_retries": 1083,
+        "producer_dropped": 0,
+        "db_retries_in_process": 369,
+        "queue_redeliveries": null,
+        "replayed_rows_skipped_by_on_conflict": 3264
+      },
+      "result": {
+        "rows_in_db": 20000,
+        "expected_rows": 20000,
+        "missing": 0,
+        "unexpected_extra": 0,
+        "dead_letter_queue_depth": 100,
+        "seconds_to_drain": 25.97
+      },
+      "invariants_hold": true
+    },
+    {
+      "scenario": "chaos",
+      "consumers": 4,
+      "valid_events": 20000,
+      "poison_messages": 100,
+      "injected": {
+        "producer_send_failures": 1083,
+        "duplicate_messages_sent": 1077,
+        "db_errors_before_write": 249,
+        "db_errors_after_commit_lost_ack": 111,
+        "consumer_crashes_after_commit": 115
+      },
+      "absorbed": {
+        "producer_retries": 1083,
+        "producer_dropped": 0,
+        "db_retries_in_process": 359,
+        "queue_redeliveries": null,
+        "replayed_rows_skipped_by_on_conflict": 3169
+      },
+      "result": {
+        "rows_in_db": 20000,
+        "expected_rows": 20000,
+        "missing": 0,
+        "unexpected_extra": 0,
+        "dead_letter_queue_depth": 100,
+        "seconds_to_drain": 9.67
+      },
+      "invariants_hold": true
+    }
+  ]
+}

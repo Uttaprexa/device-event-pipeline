@@ -1,0 +1,69 @@
+{
+  "environment": {
+    "store": "postgres",
+    "queue": "sqs",
+    "python": "3.14.6",
+    "cpus": 10,
+    "platform": "macOS-15.3-arm64-arm-64bit-Mach-O"
+  },
+  "runs": [
+    {
+      "scenario": "chaos",
+      "consumers": 1,
+      "valid_events": 2000,
+      "poison_messages": 100,
+      "injected": {
+        "producer_send_failures": 112,
+        "duplicate_messages_sent": 112,
+        "db_errors_before_write": 24,
+        "db_errors_after_commit_lost_ack": 10,
+        "consumer_crashes_after_commit": 9
+      },
+      "absorbed": {
+        "producer_retries": 112,
+        "producer_dropped": 0,
+        "db_retries_in_process": 34,
+        "queue_redeliveries": null,
+        "replayed_rows_skipped_by_on_conflict": 285
+      },
+      "result": {
+        "rows_in_db": 2000,
+        "expected_rows": 2000,
+        "missing": 0,
+        "unexpected_extra": 0,
+        "dead_letter_queue_depth": 100,
+        "seconds_to_drain": 9.2
+      },
+      "invariants_hold": true
+    },
+    {
+      "scenario": "chaos",
+      "consumers": 4,
+      "valid_events": 2000,
+      "poison_messages": 100,
+      "injected": {
+        "producer_send_failures": 112,
+        "duplicate_messages_sent": 112,
+        "db_errors_before_write": 23,
+        "db_errors_after_commit_lost_ack": 14,
+        "consumer_crashes_after_commit": 15
+      },
+      "absorbed": {
+        "producer_retries": 112,
+        "producer_dropped": 0,
+        "db_retries_in_process": 37,
+        "queue_redeliveries": null,
+        "replayed_rows_skipped_by_on_conflict": 375
+      },
+      "result": {
+        "rows_in_db": 2000,
+        "expected_rows": 2000,
+        "missing": 0,
+        "unexpected_extra": 0,
+        "dead_letter_queue_depth": 100,
+        "seconds_to_drain": 6.89
+      },
+      "invariants_hold": true
+    }
+  ]
+}

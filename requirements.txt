@@ -1,0 +1,4 @@
+# core pipeline has no third-party deps (stdlib + SQLite) so the tests run anywhere
+boto3>=1.34          # SqsQueue adapter (real SQS / LocalStack)
+psycopg2-binary>=2.9 # PostgresStore adapter
+pytest>=8            # optional; tests are plain unittest and also run under pytest
